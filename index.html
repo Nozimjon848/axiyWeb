@@ -1,0 +1,602 @@
+<!DOCTYPE html>
+<html lang="uz">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AXIY WEB — Premium Nakrutka</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Poppins', sans-serif;
+    }
+
+    body {
+      scroll-behavior: smooth;
+      background: #0a0a0f;
+      color: #fff;
+      overflow-x: hidden;
+    }
+
+    nav {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      background: rgba(0, 0, 0, 0.85);
+      padding: 12px 0;
+      z-index: 1000;
+      display: flex;
+      justify-content: center;
+      gap: 25px;
+      backdrop-filter: blur(10px);
+    }
+
+    nav a {
+      color: #fff;
+      text-decoration: none;
+      font-weight: 500;
+      transition: color 0.3s;
+    }
+
+    nav a:hover {
+      color: #00d4ff;
+    }
+
+    header {
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      background: linear-gradient(135deg, #0f0c29, #302b63, #24243e);
+      text-align: center;
+      padding: 20px;
+    }
+
+    header h1 {
+      font-size: clamp(36px, 6vw, 80px);
+      margin-bottom: 10px;
+      text-shadow: 0 5px 20px rgba(0, 0, 0, 0.4);
+    }
+
+    header p {
+      max-width: 600px;
+      font-size: clamp(14px, 2vw, 20px);
+      opacity: 0.8;
+    }
+
+    section {
+      min-height: 100vh;
+      padding: 80px 20px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+    }
+
+    h2 {
+      font-size: clamp(24px, 5vw, 48px);
+      margin-bottom: 20px;
+      position: relative;
+    }
+
+    h2::after {
+      content: "";
+      width: 60px;
+      height: 4px;
+      background: #00d4ff;
+      display: block;
+      margin: 10px auto;
+      border-radius: 2px;
+    }
+
+    p {
+      max-width: 800px;
+      font-size: clamp(14px, 2vw, 18px);
+      opacity: 0.9;
+    }
+
+    .services {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 25px;
+      width: 100%;
+      max-width: 1100px;
+      margin-top: 40px;
+    }
+
+    .card {
+      background: linear-gradient(145deg, rgba(255, 255, 255, 0.05), rgba(255, 255, 255, 0.02));
+      padding: 25px;
+      border-radius: 16px;
+      transition: transform 0.4s ease, box-shadow 0.4s ease;
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.4);
+      backdrop-filter: blur(6px);
+      opacity: 0;
+      transform: translateY(40px);
+    }
+
+    .card h3 {
+      margin-bottom: 10px;
+      color: #00d4ff;
+    }
+
+    .card:hover {
+      transform: translateY(-10px) rotateX(5deg) rotateY(5deg);
+      box-shadow: 0 15px 40px rgba(0, 212, 255, 0.3);
+    }
+
+    form {
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+      width: 100%;
+      max-width: 500px;
+      margin-top: 20px;
+      opacity: 0;
+      transform: translateY(40px);
+    }
+
+    input,
+    textarea,
+    select {
+      padding: 12px;
+      border: none;
+      border-radius: 8px;
+      font-size: 16px;
+    }
+
+    button {
+      padding: 12px;
+      background: #00d4ff;
+      border: none;
+      border-radius: 8px;
+      font-size: 16px;
+      font-weight: 600;
+      color: #000;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+
+    button:hover {
+      background: #00aacc;
+    }
+
+    footer {
+      padding: 20px;
+      background: #000;
+      text-align: center;
+      font-size: 14px;
+      opacity: 0.7;
+    }
+
+    /* Scroll animatsiya */
+    .show {
+      opacity: 1 !important;
+      transform: translateY(0) !important;
+      transition: all 0.8s ease;
+    }
+
+    .navbar {
+      position: fixed;
+      top: 0;
+      width: 100%;
+      z-index: 999;
+      transition: background 0.3s ease, padding 0.3s ease;
+      padding: 12px 0;
+      background: rgba(0, 0, 0, 0.4);
+      backdrop-filter: blur(8px);
+    }
+
+    .navbar.scrolled {
+      background: rgba(0, 0, 0, 0.9);
+    }
+
+    .nav-container {
+      width: 90%;
+      max-width: 1100px;
+      margin: auto;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .nav-links {
+      list-style: none;
+      display: flex;
+      gap: 25px;
+    }
+
+    .nav-links li {
+      position: relative;
+    }
+
+    .nav-links a {
+      text-decoration: none;
+      color: white;
+      font-weight: 500;
+      font-size: 16px;
+      transition: color 0.3s ease;
+    }
+
+    .nav-links a::after {
+      content: "";
+      position: absolute;
+      bottom: -5px;
+      left: 0;
+      width: 0%;
+      height: 2px;
+      background: linear-gradient(90deg, #00d4ff, #0077ff);
+      transition: width 0.3s ease;
+    }
+
+    .nav-links a:hover::after {
+      width: 100%;
+    }
+
+    .menu-toggle {
+      display: none;
+      flex-direction: column;
+      cursor: pointer;
+      gap: 5px;
+    }
+
+    .bar {
+      height: 3px;
+      width: 25px;
+      background: white;
+      border-radius: 2px;
+    }
+
+    .logo a {
+      font-size: 20px;
+      font-weight: 700;
+      color: #00d4ff;
+      text-decoration: none;
+    }
+
+    @media (max-width: 768px) {
+      .menu-toggle {
+        display: flex;
+      }
+
+      .nav-links {
+        position: absolute;
+        top: 60px;
+        right: -100%;
+        background: rgba(0, 0, 0, 0.95);
+        flex-direction: column;
+        width: 200px;
+        text-align: center;
+        padding: 20px 0;
+        gap: 15px;
+        transition: right 0.3s ease;
+      }
+
+      .nav-links.active {
+        right: 0;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <nav class="navbar">
+    <div class="nav-container">
+      <div class="logo">
+        <a href="#home">AXIY WEB</a>
+      </div>
+
+      <ul class="nav-links">
+        <li><a href="#home">Bosh sahifa</a></li>
+        <li><a href="#services">Xizmatlar</a></li>
+        <li><a href="#about">Biz haqimizda</a></li>
+        <li><a href="#order">Qabul</a></li>
+        <li><a href="#contact">Bog'lanish</a></li>
+      </ul>
+      <div class="menu-toggle" id="mobile-menu">
+        <span class="bar"></span>
+        <span class="bar"></span>
+        <span class="bar"></span>
+      </div>
+    </div>
+  </nav>
+
+  <header id="home">
+    <h1>AXIY WEB</h1>
+    <p>Premium dizayn va tezkor nakrutka xizmatlari — Telegram, Instagram, YouTube va boshqa platformalar uchun.</p>
+  </header>
+
+  <section id="services">
+    <h2>Xizmatlar</h2>
+    <div class="services">
+      <div class="card">
+        <h3>Telegram Nakrutka</h3>
+        <p>Obunachi, ko‘rish, ovoz berish va reklama joylash.</p>
+      </div>
+      <div class="card">
+        <h3>Instagram Nakrutka</h3>
+        <p>Follower, like, view va kommentlar.</p>
+      </div>
+      <div class="card">
+        <h3>YouTube Nakrutka</h3>
+        <p>Ko‘rishlar, like, obunachi va izohlar.</p>
+      </div>
+      <div class="card">
+        <h3>TikTok Nakrutka</h3>
+        <p>Follower, like, video view va reklama.</p>
+      </div>
+      <div class="card">
+        <h3>Dizayner ishlar</h3>
+        <p>Logo, Post, Avatarka Banner va reklama .</p>
+      </div>
+      <div class="card">
+        <h3>Web Dasturlash</h3>
+        <p>Web saytlar Web ilovalar.</p>
+      </div>
+      <div class="card">
+        <h3>Telegram bot</h3>
+        <p>Mukammal profisanal telegram bot.</p>
+      </div>
+      <div class="card">
+        <h3>Premium va stars</h3>
+        <p>Telegram premium va starslar savdosi.</p>
+      </div>
+    </div>
+  </section>
+
+  <section id="about">
+    <h2>Biz haqimizda</h2>
+    <p>Bizning jamoamiz ijtimoiy tarmoqlarda tez, xavfsiz va sifatli nakrutka xizmatlarini taqdim etadi. Har bir
+      buyurtma individual yondashuv bilan bajariladi.</p>
+
+    <div class="services" style="margin-top:40px;">
+      <div class="card">
+        <h3>⚡ Tezkor Yetkazish</h3>
+        <p>Buyurtmangiz qisqa vaqt ichida bajariladi. Kechiktirishlarsiz va aniq muddatda.</p>
+      </div>
+      <div class="card">
+        <h3>✅ Sifat Kafolati</h3>
+        <p>Barcha xizmatlarimiz sifat va barqarorlik bo‘yicha sinovdan o‘tgan.</p>
+      </div>
+      <div class="card">
+        <h3>🔒 Maxfiylik</h3>
+        <p>Buyurtmalar va mijoz ma’lumotlari qat’iy maxfiylikda saqlanadi.</p>
+      </div>
+      <div class="card">
+        <h3>🤝 Qo‘llab-quvvatlash</h3>
+        <p>24/7 texnik yordam va maslahat xizmatlari mavjud.</p>
+      </div>
+      <div class="card">
+        <h3>💵 Arzon</h3>
+        <p>Buyurtmalar juda arzon lekin sifati yuqori.</p>
+      </div>
+      <div class="card">
+        <h3>🚀 Tezkor xizmat</h3>
+        <p>Buyurtmalar eng qisqa vaqt ichida bajariladi.</p>
+      </div>
+      <div class="card">
+        <h3>🔒 Maxfiylik</h3>
+        <p>Buyurtmalar va mijoz ma’lumotlari qat’iy maxfiylikda saqlanadi.</p>
+      </div>
+      <div class="card">
+        <h3>💡 Innovatsiya</h3>
+        <p>Doimiy ravishda yangi texnologiyalar va yechimlar qo‘llaniladi.</p>
+      </div>
+
+    </div>
+  </section>
+
+
+  <section id="order">
+    <h2>Buyurtma berish</h2>
+    <form id="orderForm">
+      <input type="text" name="Ism" placeholder="Ismingiz" required>
+      <input type="tel" name="Telefon" placeholder="Telegram username" required>
+      <select name="Xizmat" required>
+        <option value="">Xizmatni tanlang</option>
+        <option value="Telegram">Telegram Nakrutka</option>
+        <option value="Instagram">Instagram Nakrutka</option>
+        <option value="YouTube">YouTube Nakrutka</option>
+        <option value="TikTok">TikTok Nakrutka</option>
+        <option value="Dizayn">Dizayn ishlar</option>
+        <option value="Dasturlash">Dasturlash ishlari</option>
+        <option value="Hammasi">Hammasi </option>
+      </select>
+      <textarea name="Izoh" placeholder="Qo‘shimcha izoh" rows="4"></textarea>  
+      <button type="submit">Yuborish</button>
+    </form>
+  </section>
+
+  <section id="contact">
+    <h2>Bog‘lanish</h2>
+    <div class="contact-cards">
+      <div class="contact-card">
+        <h3>📨 Telegram</h3>
+        <a href="https://t.me/AxiyWeb" target="_blank">@AxiyWeb</a>
+      </div>
+      <div class="contact-card">
+        <h3>💙 Instagram</h3>
+        <a href="https://www.instagram.com/yuldoosheev?igsh=ZXoyODFvd3Z3d2k%3D&utm_source=qr">@yuldoosheev</a>
+      </div>  
+      <div class="contact-card">
+        <h3>📞 Telefon</h3>
+        <a href="tel:+998979088877">+998 979088877</a>
+      </div>
+    </div>
+  </section>
+
+  <style>
+    .contact-cards {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 20px;
+      margin-top: 30px;
+      width: 100%;
+      max-width: 800px;
+    }
+
+    .contact-card {
+      background: linear-gradient(145deg, rgba(255, 255, 255, 0.05), rgba(255, 255, 255, 0.02));
+      padding: 20px;
+      border-radius: 12px;
+      backdrop-filter: blur(8px);
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .contact-card h3 {
+      margin-bottom: 8px;
+      color: #00d4ff;
+    }
+
+    .contact-card a {
+      color: white;
+      text-decoration: none;
+      font-weight: 500;
+      word-break: break-word;
+    }
+
+    .contact-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 12px 30px rgba(0, 212, 255, 0.2);
+    }
+
+    .nav-links a.active {
+      color: #00d4ff;
+    }
+  </style>
+  <style>
+    #backToTop {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      padding: 12px 15px;
+      background: #00d4ff;
+      color: #000;
+      font-weight: bold;
+      border: none;
+      border-radius: 50%;
+      cursor: pointer;
+      display: none;
+      z-index: 9999;
+    }
+  </style>
+
+  <button id="backToTop">↑</button>
+
+  <script>
+    const btn = document.getElementById("backToTop");
+    window.addEventListener("scroll", () => {
+      btn.style.display = window.scrollY > 200 ? "block" : "none";
+    });
+    btn.addEventListener("click", () => {
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    });
+  </script>
+
+  <style>
+    .fade-in {
+      opacity: 0;
+      transform: translateY(40px);
+      transition: opacity 0.8s ease, transform 0.8s ease;
+    }
+
+    .fade-in.show {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  </style>
+
+  <script>
+    const fadeElements = document.querySelectorAll('.fade-in');
+    const fadeObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('show');
+        }
+      });
+    }, { threshold: 0.2 });
+
+    fadeElements.forEach(el => fadeObserver.observe(el));
+  </script>
+
+  <footer>
+    &copy; 2025 AXIY WEB. Barcha huquqlar himoyalangan.
+  </footer>
+
+  <script>
+    const sections = document.querySelectorAll("section");
+    const navLinks = document.querySelectorAll(".nav-links a");
+
+    window.addEventListener("scroll", () => {
+      let current = "";
+      sections.forEach(sec => {
+        const sectionTop = sec.offsetTop - 100;
+        if (scrollY >= sectionTop) {
+          current = sec.getAttribute("id");
+        }
+      });
+
+      navLinks.forEach(link => {
+        link.classList.remove("active");
+        if (link.getAttribute("href") === "#" + current) {
+          link.classList.add("active");
+        }
+      });
+    });
+
+    // Scroll animatsiya
+    const observer = new IntersectionObserver(entries => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('show');
+        }
+      });
+    }, { threshold: 0.2 });
+    document.querySelectorAll('.card, form').forEach(el => observer.observe(el));
+
+    // Telegram form
+    document.getElementById('orderForm').addEventListener('submit', function (e) {
+      e.preventDefault();
+      const botToken = "8258370409:AAE_GNkKy1V-BGEf1uKDF9BpYc2pssrNhNw"; // o'zingiznikini qo'ying
+      const chatId = "7721269981"; // o'zingiznikini qo'ying
+      const formData = new FormData(this);
+      let message = "📩 Yangi buyurtma:%0A";
+      formData.forEach((value, key) => {
+        message += `${key}: ${value}%0A`;
+      });
+      fetch(`https://api.telegram.org/bot${botToken}/sendMessage?chat_id=${chatId}&text=${message}`)
+        .then(res => {
+          if (res.ok) {
+            alert("Buyurtma yuborildi!");
+            this.reset();
+          } else {
+            alert("Xatolik yuz berdi.");
+          }
+        }).catch(() => alert("Internet xatoligi."));
+    });
+    // Scrollda navbar fonini o'zgartirish
+    window.addEventListener("scroll", function () {
+      const navbar = document.querySelector(".navbar");
+      if (window.scrollY > 50) {
+        navbar.classList.add("scrolled");
+      } else {
+        navbar.classList.remove("scrolled");
+      }
+    });
+
+    // Mobil menyu toggle
+    document.getElementById("mobile-menu").addEventListener("click", function () {
+      document.querySelector(".nav-links").classList.toggle("active");
+    });
+  </script>
+
+</body>
+
+</html>
